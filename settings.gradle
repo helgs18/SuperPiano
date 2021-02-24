@@ -1,0 +1,2 @@
+rootProject.name = "SuperPiano"
+include ':app'
