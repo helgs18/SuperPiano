@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "790692770338",
+    "project_id": "superpiano-7aac9",
+    "storage_bucket": "superpiano-7aac9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790692770338:android:6bfb0f3ed14c799206d07b",
+        "android_client_info": {
+          "package_name": "no.uia.ikt205.superpiano"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "790692770338-b1b7959svso10j1tkn5mhncs3s0dkmsr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9VsYe9UMXVNVi3Z0bpMk7b7zQ7gTHg-o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "790692770338-b1b7959svso10j1tkn5mhncs3s0dkmsr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
