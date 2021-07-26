@@ -57,21 +57,63 @@ class PianoLayout : Fragment() {
 
         view.saveScoreBt.setOnClickListener {
             var fileName = view.fileNameTextEdit.text.toString()
-            val path = this.activity?.getExternalFilesDir(null)
-            if (score.count() > 0 && fileName.isNotEmpty() && path != null){
-                fileName = "$fileName.musikk"
-                FileOutputStream(File(path,fileName),true).bufferedWriter().use { writer ->
-                    // bufferdWriter lever her
-                    score.forEach {
-                        writer.write("${it.toString()}\n")
-                    }
-                }
+            if (score.count() > 0 && fileName.isNotEmpty()){
+                fileName = "$fileName.music"
+                /* Map etterfulgt av en reduce. Dette her er funksjonell programmering.
+                    Map = tar en liste og konverterer til en annen liste / mapper om. Her mapper vi
+                        om en liste med noter til en liste med strings.
+                    Reduce = tar en liste og gjør den om til en ting.
+                    For å vise mere, valgte Christian File->Scratch File->Kotlin. Se bunnen av denne
+                    filen, for å se map og reduce kode som jeg testet i Kotlin scratch-fil.
+                 */
+                val content: String = score.map{
+                    it.toString()
+                }.reduce { acc, s -> acc + s + "\n"}
+                saveFile(fileName, content)
             } else {
-                /// TODO: What to do?
+                /// TODO: no music or missing filename
             }
         }
 
         return view
     }
 
+    private fun saveFile(fileName: String, content: String){
+        val path = this.activity?.getExternalFilesDir(null)
+        if (path != null){
+            val file = File(path, fileName)
+            FileOutputStream(file,true).bufferedWriter().use { writer ->
+                writer.write(content)
+                score.forEach {
+                    writer.write("${it.toString()}\n")
+                }
+            }
+        } else {
+            // Else: could not get external path. Warn user?
+        }
+    }
+
 }
+
+/* map og reduce kode som jeg testet ut i scratch.kts:
+val test = listOf<Int>(1, 2, 3, 4, 5)
+val res = test.reduce{ acc:Int, i:Int -> acc + i } // res:Int = 15
+
+// List<Int> to List<Double> ([1.0, 2.0, 3.0, 4.0, 5.0])
+val rapper: List<Double> = test.map{
+    it.toDouble()
+}
+
+// List<Int> to List<String> (["1","2","3","4","5"])
+val strapper: List<String> = test.map {
+    it.toString()
+}
+
+// List<Int> to List<Int?> ([null, 2, null, 4, null])
+val boler: List<Int?> = test.map{
+    if (it % 2 == 0)
+        it.toInt()
+    else
+        null
+}
+ */

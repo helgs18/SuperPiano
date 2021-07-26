@@ -26,10 +26,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // setContentView(R.layout.activity_main) // trenger ikke denne, når vi bruker binding
-
+        // setContentView(R.layout.activity_main) // Må bruke binding.root i stedet (se under)
         binding = ActivityMainBinding.inflate(layoutInflater)   // Er lik måten vi brukte ved bruk av fragments
+        setContentView(binding.root)    // Fikk svart skjerm da denne manglet
         auth = Firebase.auth    // henter ut en instanse på denne
+        signInAnonymously()
     }
 
     private fun signInAnonymously(){
