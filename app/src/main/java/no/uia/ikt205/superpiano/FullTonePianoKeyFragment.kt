@@ -15,6 +15,7 @@ class FullTonePianoKeyFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var note:String
 
+    // onKeyUp og onKeyDown er delegat handlere, ikke funksjoner
     var onKeyDown:((note:String) -> Unit)? = null
     var onKeyUp:((note:String) -> Unit)? = null
 

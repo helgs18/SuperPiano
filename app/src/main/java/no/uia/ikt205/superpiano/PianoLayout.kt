@@ -1,5 +1,6 @@
 package no.uia.ikt205.superpiano
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import java.io.FileOutputStream
 
 
 class PianoLayout : Fragment() {
+    var onSave:((file: Uri)->Unit)? = null  // ?(nullable) pga. dette er noe som kan settes externt
 
     private var _binding:FragmentPianoBinding? = null
     private val binding get() = _binding!!
@@ -36,6 +38,9 @@ class PianoLayout : Fragment() {
         fullTones.forEach { orgNoteValue ->
             val fullTonePianoKey = FullTonePianoKeyFragment.newInstance(orgNoteValue)
             var startPlay:Long = 0
+
+            // .onKeyUp og .onKeyDown er delegat handlere. Dette er ikke funksjoner som pinaokey
+            // har selv, den må få de fra oss.
 
             fullTonePianoKey.onKeyDown =  { note ->
                 startPlay = System.nanoTime()
@@ -68,7 +73,9 @@ class PianoLayout : Fragment() {
                  */
                 val content: String = score.map{
                     it.toString()
-                }.reduce { acc, s -> acc + s + "\n"}
+                }.reduce {
+                        acc, s -> acc + s + "\n"
+                }
                 saveFile(fileName, content)
             } else {
                 /// TODO: no music or missing filename
@@ -84,10 +91,10 @@ class PianoLayout : Fragment() {
             val file = File(path, fileName)
             FileOutputStream(file,true).bufferedWriter().use { writer ->
                 writer.write(content)
-                score.forEach {
-                    writer.write("${it.toString()}\n")
-                }
             }
+
+            this.onSave?.invoke(file.toURI());
+
         } else {
             // Else: could not get external path. Warn user?
         }
@@ -116,4 +123,9 @@ val boler: List<Int?> = test.map{
     else
         null
 }
+ */
+
+/* Delegater
+fullTonePianoKey.onKeyUp{} og fullTonePianoKey.onKeyDown{} er delegat-handlere.
+Dette er ikke funksjoner som fullTonePianoKey har selv, og PianoKey må få de fra oss.
  */
