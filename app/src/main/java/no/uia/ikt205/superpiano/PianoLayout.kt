@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import kotlinx.android.synthetic.main.fragment_piano.view.*
 import no.uia.ikt205.superpiano.data.Note
 import no.uia.ikt205.superpiano.databinding.FragmentPianoBinding
@@ -93,7 +94,8 @@ class PianoLayout : Fragment() {
                 writer.write(content)
             }
 
-            this.onSave?.invoke(file.toURI());
+            // file.toURI() feilet pga. toUri var den korrekte (nesten identiske funksjoner)
+            this.onSave?.invoke(file.toUri());
 
         } else {
             // Else: could not get external path. Warn user?
@@ -122,6 +124,12 @@ val boler: List<Int?> = test.map{
         it.toInt()
     else
         null
+}
+
+// map-reduce som blir brukt, kan deles opp til følgende map og reduce:
+val number_list = test.map { it.toString() }
+val content: String = number_list.reduce{
+    acc, s -> acc + s + " "
 }
  */
 
